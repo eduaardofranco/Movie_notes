@@ -6,8 +6,9 @@ class Movie_notesController {
 
     async create(request, response) {
         const { title, description, rating, tags } = request.body;
-        const { user_id } = request.params;
-        console.log(user_id)
+        
+        const user_id = request.user.id
+
 
         if(rating >= 6) {
             throw new AppError('Define rating between 1 and 5')
@@ -56,7 +57,8 @@ class Movie_notesController {
     }
 
     async index(request, response) {
-        const { user_id, title } = request.query
+        const { title } = request.query
+        const user_id = request.user.id
 
         const movie_notes = await knex('movie_notes')
         .where({ user_id })
