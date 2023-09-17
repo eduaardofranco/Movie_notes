@@ -4,9 +4,9 @@ const sqliteConnection = require('../database/sqlite')
 
 class TagsController {
     async index(request, response) {
-        const id = request.user.id
+        const user_id = request.user.id
         
-        const tags = await knex('movie_tags').where({ user_id: id})
+        const tags = await knex('movie_tags').where({ user_id })
 
         return response.json(tags)
     }
