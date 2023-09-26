@@ -62,7 +62,7 @@ class Movie_notesController {
 
         const movie_notes = await knex('movie_notes')
         .where({ user_id })
-        // .whereLike('title', `%${title}%`)
+        .whereLike('title', `%${title}%`)
         .orderBy('title');
 
         const userTags = await knex('movie_tags').where({ user_id })
