@@ -41,10 +41,13 @@ class Movie_notesController {
         //return the movie note based on id from params
         const movie_note = await knex('movie_notes').where({ id }).first();
         const tags = await knex('movie_tags').where({ note_id: id }).orderBy('name');
+        // const user = await knex('users').where({ id: user_id })
+        const user = await knex('users').where({ id: movie_note.user_id }).first();
 
         return response.json({
             ...movie_note,
-            tags
+            tags,
+            user
         })
     }
 
