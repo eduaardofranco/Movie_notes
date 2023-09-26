@@ -5,9 +5,12 @@ const AppError = require('./utils/AppError')
 const express = require('express');
 const uploadConfig = require('./configs/upload')
 
+const cors = require('cors')
 const routes = require('./routes');
 
 const app = express();
+//cors to handle fron end requests
+app.use(cors())
 app.use(express.json());
 
 //show avatar inside uploads folder
