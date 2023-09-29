@@ -21,16 +21,20 @@ class Movie_notesController {
             user_id
         });
         
-        const tagsInsert = tags.map(tag => {
-            return {
-                user_id,
-                note_id,
-                name: tag
+        //if there are tags, insert into table
 
-            }
-        })
-
-        await knex('movie_tags').insert(tagsInsert);
+        if(tags.length !== 0) {
+            const tagsInsert = tags.map(tag => {
+                return {
+                    user_id,
+                    note_id,
+                    name: tag
+    
+                }
+            })
+    
+            await knex('movie_tags').insert(tagsInsert);
+        }
 
         response.json()
     }
