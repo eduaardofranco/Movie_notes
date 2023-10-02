@@ -4,6 +4,7 @@ const DiskStorage = require('../providers/DiskStorage')
 
 class UserAvatarController {
     async update(request, response) {
+
         const user_id = request.user.id
         const avatarFilename = request.file.filename
 
@@ -15,8 +16,9 @@ class UserAvatarController {
         if(!user) {
             throw new AppError('Only authenticate users can update avatar', 401)
         }
-
+        console.log(user.avatar)
         if(user.avatar) {
+            console.log('deletou')
             await diskStorage.deleteFile(user.avatar)
         }
 

@@ -15,17 +15,18 @@ class DiskStorage {
     }
     async deleteFile(file) {
         const filePath = path.resolve(UploadConfig.UPLOADS_FOLDER, file)
+        console.log(filePath)
         
         try {
             // .stat returns the state of the file
             //if file is open in another processs, if its affected, etc..
-            await fs.promisses.stat(filePath)
+            await fs.promises.stat(filePath)
         } catch {
             return 
         }
 
         //unlink fn deletes the file
-        await fs.promisse.unlink(filePath)
+        await fs.promises.unlink(filePath)
     }
 }
 
