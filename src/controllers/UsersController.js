@@ -21,7 +21,7 @@ class UsersControllers {
         //cryptography the password
         const hashedPassword = await hash(password, 8)
 
-        await userRepository.create({ name, email, password: hashedPassword })
+        const userCreated = await userRepository.create({ name, email, password: hashedPassword })
 
         //return a 201 created status code 
         return response.status(201).json()
