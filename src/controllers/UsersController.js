@@ -3,26 +3,26 @@ const AppError = require('../utils/AppError')
 const knex = require('../database/knex')
 const sqliteConnection = require('../database/sqlite')
 
+const UserRepository = require('../repositories/UserRepository')
+
 class UsersControllers {
     
     async create(request, response) {
         const { name, email, password } = request.body
 
-        //stablish the connection with database
-        const database = await sqliteConnection();
+        const userRepository = new UserRepository()
 
-        //check if there is a user registred in the table with the same email it is traying to register
-        const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)", [email])
+        const checkUserExists = await userRepository.findByEmail(email)
 
         if(checkUserExists) {
             throw new AppError("E-mail already registered");
         }
 
-        //cryptofraphy the password
+        //cryptography the password
         const hashedPassword = await hash(password, 8)
 
-        //insert data into the table
-        await database.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashedPassword]);
+        await userRepository.create({ name, email, password: hashedPassword })
+
         //return a 201 created status code 
         return response.status(201).json()
 
