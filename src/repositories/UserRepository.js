@@ -23,6 +23,39 @@ class UserRepository {
 
          return { id: userId}
     }
+
+    async checkUserExists(user_id) {
+        
+        //stablish the connection with database
+        const database = await sqliteConnection();
+
+        const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id]);
+
+        return user
+    }
+
+    async update({ user }) {
+        const {  id, name, email, password  } = user
+        
+        //database connection
+        const database = await sqliteConnection();
+
+        try {
+             await database.run(`
+                UPDATE users SET
+                name = ?,
+                email = ?,
+                password = ?,
+                updated_at = DATETIME('now')
+                WHERE id = ?`,
+                [name, email, password, id]
+            );
+        } catch (error) {
+            throw new Error('Error updating user: ' + error.message);
+        }
+
+        return user
+    }
 }
 
 module.exports = UserRepository
