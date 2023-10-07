@@ -1,4 +1,5 @@
 const sqliteConnection = require('../database/sqlite')
+const knex = require('knex')
 
 class UserRepository {
 
@@ -55,6 +56,19 @@ class UserRepository {
         }
 
         return user
+    }
+
+    async delete(id) {
+
+        const database = await sqliteConnection();
+
+        await database.run(`
+            DELETE FROM users
+            WHERE id = ?`,
+            [id]
+        );
+
+        return id
     }
 }
 

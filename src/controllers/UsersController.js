@@ -4,6 +4,7 @@ const knex = require('../database/knex')
 const sqliteConnection = require('../database/sqlite')
 const UserCreateService = require('../services/UserCreateService')
 const UserUpdateService = require('../services/UserUpdateService')
+const UserDeleteService = require('../services/UserDeleteService')
 
 const UserRepository = require('../repositories/UserRepository')
 
@@ -42,7 +43,10 @@ class UsersControllers {
     async delete(request, response) {
         const { id } = request.params;
 
-        await knex('users').where({ id }).delete();
+        const userRepository = new UserRepository()
+        const userDeleteService = new UserDeleteService(userRepository)
+
+        await userDeleteService.execute(id)
 
         return response.json()
     }
