@@ -1,18 +1,25 @@
+const cors = require('cors')
+const express = require('express');
+const routes = require('./routes');
+const cookieParser = require('cookie-parser')
+const AppError = require('./utils/AppError')
 require('express-async-errors');
 require('dotenv/config')
 
 const database = require('./database/sqlite')
-const AppError = require('./utils/AppError')
-const express = require('express');
 const uploadConfig = require('./configs/upload')
 
-const cors = require('cors')
-const routes = require('./routes');
 
 const app = express();
-//cors to handle fron end requests
-app.use(cors())
 app.use(express.json());
+app.use(cookieParser())
+
+//cors to handle fron end requests
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+    // allowedHeaders: 'Content-Type, Authorization'
+}))
 
 //show avatar inside uploads folder
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER))

@@ -24,6 +24,7 @@ class SessionsController {
 
         //jwt config from auth.js
         const { secret, expiresIn } = authConfig.jwt
+
         const token = sign({}, secret, {
             //subject is what we're putting inside the tokens header
             //in these case is the user id
@@ -31,7 +32,18 @@ class SessionsController {
             expiresIn
         })
 
-        return response.json({ user, token })
+        //token now is returned inside a cookie
+        response.cookie('token', token, {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true,
+            maxAge: 15 * 60 * 1000
+        })
+
+        //delete password before returning user
+        delete user.password
+
+        return response.json({ user })
     }
 }
 
