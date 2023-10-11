@@ -11,7 +11,7 @@ function ensureAuthenticated(request, response, next) {
         throw new AppError('Token not informed', 401)
 
     }
-    //token comes like: Beare xxxxxxxxxxx
+
     //so we have to split it and get only the token hash
     const [, token] = authHeader.cookie.split('token=')
 
