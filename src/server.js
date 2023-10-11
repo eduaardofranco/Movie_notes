@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 //cors to handle fron end requests
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173','https://rocketmovies20.netlify.app/'],
     credentials: true,
     // allowedHeaders: 'Content-Type, Authorization'
 }))
